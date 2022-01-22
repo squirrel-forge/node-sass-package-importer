@@ -6,7 +6,7 @@ const { pathToFileURL } = require( 'url' );
 
 /**
  * @typedef {Object} PackageImporterOptions
- * @property {boolean} strict - Require a package.json there is no module target info
+ * @property {boolean} strict - Require a package.json if there is no module target info, default: false
  * @property {null|string} cwd - Set the working directory for the importer, default: null > process.cwd()
  * @property {string} prefix - Package import prefix, default: ~
  * @property {Array<string>} ext - Array of acceptable extensions, defaults: see PACKAGE_IMPORTER_DEFAULT_OPTIONS.ext
@@ -117,7 +117,7 @@ const PACKAGE_IMPORTER_DEFAULT_OPTIONS = {
     cwd : null,
     prefix : '~',
     ext : [ '.scss', '.sass', '.css' ],
-    keys : [ 'sass', 'scss', 'style', 'css', 'main.sass', 'main.scss', 'main.style', 'main.css', 'main' ],
+    keys : [ 'scss', 'sass', 'style', 'css', 'main.scss', 'main.sass', 'main.style', 'main.css', 'main' ],
 };
 
 /**
