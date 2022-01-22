@@ -1,0 +1,31 @@
+{
+  "name": "@squirrel-forge/sass-package-importer",
+  "version": "0.9.0",
+  "description": "A simple node sass package importer built for the new sass js api.",
+  "main": "packageImporter.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/squirrel-forge/node-sass-package-importer.git"
+  },
+  "keywords": [
+    "sass",
+    "plugin",
+    "importer",
+    "package-importer"
+  ],
+  "author": "Daniel Hartwell <me@siux.info> (http://siux.info)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/squirrel-forge/node-sass-package-importer/issues"
+  },
+  "homepage": "https://github.com/squirrel-forge/node-sass-package-importer#readme",
+  "engines": {
+    "node": ">= 10.0.0"
+  },
+  "peerDependencies": {
+    "sass": "^1.40.0"
+  }
+}
