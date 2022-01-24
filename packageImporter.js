@@ -7,7 +7,7 @@ const { pathToFileURL } = require( 'url' );
 
 /**
  * @typedef {Object} PackageImporterOptions
- * @property {boolean} strict - Require a package.json if there is no module target info, default: false
+ * @property {boolean} strict - Require a package directory and a package.json if there is no module target info, default: false
  * @property {null|string} cwd - Set the working directory for the importer, default: null > process.cwd()
  * @property {string} prefix - Package import prefix, default: ~
  * @property {Array<string>} ext - Array of acceptable extensions, defaults: see PACKAGE_IMPORTER_DEFAULT_OPTIONS.ext
