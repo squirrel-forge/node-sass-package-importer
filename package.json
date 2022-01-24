@@ -1,6 +1,6 @@
 {
   "name": "@squirrel-forge/sass-package-importer",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "A simple node sass package importer built for the new sass js api.",
   "main": "packageImporter.js",
   "scripts": {
