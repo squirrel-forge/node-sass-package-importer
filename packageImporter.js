@@ -1,6 +1,7 @@
 /**
  * Requires
  */
+const fs = require( 'fs' );
 const path = require( 'path' );
 const { pathToFileURL } = require( 'url' );
 
@@ -11,6 +12,7 @@ const { pathToFileURL } = require( 'url' );
  * @property {string} prefix - Package import prefix, default: ~
  * @property {Array<string>} ext - Array of acceptable extensions, defaults: see PACKAGE_IMPORTER_DEFAULT_OPTIONS.ext
  * @property {Array<string>} keys - Array of possible package keys to check for a file reference, defaults: see PACKAGE_IMPORTER_DEFAULT_OPTIONS.keys
+ * @property {Array<string>} paths - Array of possible package locations, relative or absolute paths, defaults see PACKAGE_IMPORTER_DEFAULT_OPTIONS.paths
  */
 
 /**
@@ -41,7 +43,7 @@ function _packageImporter_get_pkg_entry( module_name, module_path, options ) {
         }
 
         // In strict we fail
-        throw new Error( 'Failed to load package.json for: ' + module_name + ' in: ' + module_path, error );
+        throw new Error( 'SassPackageImporter failed to load package.json for: ' + module_name + ' in: ' + module_path, error );
     }
 
     // If we do not find a fitting key,
@@ -70,13 +72,36 @@ function _packageImporter_get_pkg_entry( module_name, module_path, options ) {
 }
 
 /**
+ * Check if given path exists
+ * @private
+ * @param {string} check_path - Path to check
+ * @param {string} module_name - Module name
+ * @param {Object|PackageImporterOptions} options - Importer options
+ * @return {null|string} - Path string if it exists
+ */
+function _packageImporter_get_pkg_path( check_path, module_name, options ) {
+
+    // Resolve absolute or relative path
+    const check = check_path.startsWith( path.sep ) ?
+        path.resolve( check_path, module_name )
+        : path.resolve( options.cwd || process.cwd(), check_path, module_name );
+
+    // Return path if it exists
+    if ( fs.lstatSync( check ).isDirectory() ) {
+        return check;
+    }
+    return null;
+}
+
+/**
  * Get package info from string
  * @private
  * @param {string} input - Input string
- * @param {Object|PackageImporterOptions} local_options - Importer options
+ * @param {Object|PackageImporterOptions} options - Importer options
+ * @throws Error
  * @return {{module_name, module_path: string, module_target: (null|string)}} - Package info object
  */
-function _packageImporter_get_pkg_info( input, local_options ) {
+function _packageImporter_get_pkg_info( input, options ) {
 
     // Module target is the path after the module name
     let module_target = null, module_name = input;
@@ -103,7 +128,19 @@ function _packageImporter_get_pkg_info( input, local_options ) {
     }
 
     // Resolve the actual module path and return data
-    const module_path = path.join( local_options.cwd || process.cwd(), 'node_modules', module_name );
+    let module_path;
+    for ( let i = 0; i < options.paths.length; i++ ) {
+        module_path = _packageImporter_get_pkg_path( options.paths[ i ], module_name, options );
+        if ( module_path ) break;
+    }
+
+    // Fail in strict
+    if ( !module_path ) {
+        if ( options.strict ) throw new Error( 'SassPackageImporter failed to resolve an existing path for: ' + module_name );
+
+        // Or allow sass to check, but it will likely not find anything either
+        module_path = path.join( options.paths[ 0 ], module_name );
+    }
     return { module_name, module_path, module_target };
 }
 
@@ -118,6 +155,7 @@ const PACKAGE_IMPORTER_DEFAULT_OPTIONS = {
     prefix : '~',
     ext : [ '.scss', '.sass', '.css' ],
     keys : [ 'scss', 'sass', 'style', 'css', 'main.scss', 'main.sass', 'main.style', 'main.css', 'main' ],
+    paths : [ 'node_modules' ],
 };
 
 /**
