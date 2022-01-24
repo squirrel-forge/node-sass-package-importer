@@ -36,6 +36,7 @@ const PACKAGE_IMPORTER_DEFAULT_OPTIONS = {
     prefix : '~',
     ext : [ '.scss', '.sass', '.css' ],
     keys : [ 'scss', 'sass', 'style', 'css', 'main.scss', 'main.sass', 'main.style', 'main.css', 'main' ],
+    paths : [ 'node_modules' ],
 };
 
 /**
@@ -45,6 +46,7 @@ const PACKAGE_IMPORTER_DEFAULT_OPTIONS = {
  * @property {string} prefix - Package import prefix, default: ~
  * @property {Array<string>} ext - Array of acceptable extensions, defaults: see PACKAGE_IMPORTER_DEFAULT_OPTIONS.ext
  * @property {Array<string>} keys - Array of possible package keys to check for a file reference, defaults: see PACKAGE_IMPORTER_DEFAULT_OPTIONS.keys
+ * @property {Array<string>} paths - Array of possible package locations, relative or absolute paths, defaults see PACKAGE_IMPORTER_DEFAULT_OPTIONS.paths
  */
 ```
 
