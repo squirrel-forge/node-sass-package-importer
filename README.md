@@ -16,7 +16,16 @@ npm i @squirrel-forge/sass-package-importer
 ```javascript
 const sass = require( 'sass' );
 const packageImporter = require( '@squirrel-forge/sass-package-importer' );
+
+// Classic way, calling the factory in place with options
 const sassOptions = { importers : [ packageImporter( /* null|PackageImporterOptions */ ) ] };
+
+// Plugin way, supply the sass options as second argument
+// It will create the importers property if required and append the importer.
+const sassOptions = {};
+packageImporter( /* null|PackageImporterOptions */, sassOptions );
+
+// Since the importer is sync it work for both sync and async compile
 const result = sass.compile( scssFilename, sassOptions );
 
 // OR
