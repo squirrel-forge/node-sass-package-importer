@@ -43,7 +43,7 @@ function _packageImporter_get_pkg_entry( module_name, module_path, options ) {
         }
 
         // In strict we fail
-        throw new Error( 'SassPackageImporter failed to load package.json for: ' + module_name + ' in: ' + module_path, error );
+        throw new Error( 'SassPackageImporter failed to load package.json for: ' + module_name + ' in: ' + module_path );
     }
 
     // If we do not find a fitting key,
