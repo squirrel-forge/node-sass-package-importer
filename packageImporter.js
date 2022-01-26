@@ -173,9 +173,10 @@ const PACKAGE_IMPORTER_DEFAULT_OPTIONS = {
  * Get package importer object for sass api
  * @public
  * @param {Object|PackageImporterOptions} options - Importer options
+ * @param {null|Object} sassOptions - Sass options to add importer to
  * @return {Object|SassFileImporter} - Importer object to use in sass options
  */
-module.exports = function packageImporter( options = null ) {
+module.exports = function packageImporter( options = null, sassOptions = null ) {
 
     // Get default options
     const local_options = { ...PACKAGE_IMPORTER_DEFAULT_OPTIONS };
@@ -185,8 +186,8 @@ module.exports = function packageImporter( options = null ) {
         Object.assign( local_options, options );
     }
 
-    // Return context module
-    return {
+    // Module context
+    const context = {
 
         /**
          * Detect and find node_modules package url
@@ -224,4 +225,18 @@ module.exports = function packageImporter( options = null ) {
             return new URL( pathToFileURL( path.join( module_path, source ) ) );
         }
     };
+
+    // Add to sassOptions importers property
+    if ( sassOptions !== null ) {
+        if ( typeof sassOptions !== 'object' ) {
+            throw new Error( 'The sassOptions argument must be an object' );
+        }
+        if ( !( sassOptions.importers instanceof Array ) ) {
+            sassOptions.importers = [];
+        }
+        sassOptions.importers.push( context );
+    }
+
+    // Return module context
+    return context;
 };
