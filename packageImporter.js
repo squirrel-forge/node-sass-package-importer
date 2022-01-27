@@ -228,12 +228,18 @@ module.exports = function packageImporter( options = null, sassOptions = null ) 
 
     // Add to sassOptions importers property
     if ( sassOptions !== null ) {
+
+        // Expect at least some sort of object
         if ( typeof sassOptions !== 'object' ) {
             throw new Error( 'The sassOptions argument must be an object' );
         }
+
+        // Create importers array if it does not exist
         if ( !( sassOptions.importers instanceof Array ) ) {
             sassOptions.importers = [];
         }
+
+        // Append module context
         sassOptions.importers.push( context );
     }
 
