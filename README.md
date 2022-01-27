@@ -13,6 +13,17 @@ npm i @squirrel-forge/sass-package-importer
 
 ## Usage
 
+Use *~* to prefix packages that should be imported or used and they will be resolved according to your [options](#options), the default options will attempt to load from the *node_modules* directory inside your cwd.
+
+#### Source scss
+```scss
+@import "~@squirrel-forge/sass-util";
+
+// OR
+@use "~@squirrel-forge/sass-util";
+```
+
+### Plugin usage:
 ```javascript
 const sass = require( 'sass' );
 const packageImporter = require( '@squirrel-forge/sass-package-importer' );
