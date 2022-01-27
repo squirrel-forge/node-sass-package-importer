@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.11.1
+ - Improved readme and code comments.
+
 ## 0.11.0
  - Added second argument *sassOptions* to factory that allows automatically adding the importer.
  - Fixed the strict error output for a missing package.json file.
