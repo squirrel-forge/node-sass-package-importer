@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.11.2
+ - Improved docs.
+
 ## 0.11.1
  - Improved readme and code comments.
 

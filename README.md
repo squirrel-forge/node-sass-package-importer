@@ -13,7 +13,7 @@ npm i @squirrel-forge/sass-package-importer
 
 ## Usage
 
-Use *~* to prefix packages that should be imported or used and they will be resolved according to your [options](#options), the default options will attempt to load from the *node_modules* directory inside your cwd.
+Use *~* to prefix packages that should be imported or used and they will be resolved according to your [options](#options), the default options will attempt to load from the *node_modules* directory inside your cwd or you may set/add your own paths that should be used to resolve packages.
 
 #### Source scss
 ```scss
@@ -21,6 +21,15 @@ Use *~* to prefix packages that should be imported or used and they will be reso
 
 // OR
 @use "~@squirrel-forge/sass-util";
+```
+
+It will also allow nested package paths if you wish to import or use a file nested inside a package and not import the complete package as following:
+
+```scss
+@import "~@squirrel-forge/sass-util/src/mixins/index";
+
+// OR
+@use "~@squirrel-forge/sass-util/src/mixins/index";
 ```
 
 ### Plugin usage:
