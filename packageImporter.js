@@ -82,13 +82,13 @@ function _packageImporter_get_pkg_entry( module_name, module_path, options ) {
 function _packageImporter_get_pkg_path( check_path, module_name, options ) {
 
     // Resolve absolute or relative path
-    const check = check_path.startsWith( path.sep ) ?
+    const check = check_path.startsWith( '/' ) || check_path.match( /^[a-z]:\\/gi ) ?
         path.resolve( check_path, module_name )
         : path.resolve( options.cwd || process.cwd(), check_path, module_name );
 
     // Return path if it exists
     if ( fs.lstatSync( check ).isDirectory() ) {
-        return check;
+        return check.replace( /\\/g, '/' );
     }
     return null;
 }
@@ -107,7 +107,7 @@ function _packageImporter_get_pkg_info( input, options ) {
     let module_target = null, module_name = input;
 
     // Split it up to see what's what, also remove empties
-    const p = input.split( path.sep ).filter( ( v ) => { return !!v.length; } );
+    const p = input.split( /[\/\\]+/g ).filter( ( v ) => { return !!v.length; } );
 
     // If we have more than one segment
     if ( p.length > 1 ) {
@@ -118,12 +118,12 @@ function _packageImporter_get_pkg_info( input, options ) {
         // If the first started with an @ it's an org
         // And if present, the second element is also part of the module name
         if ( p.length && module_name.charAt( 0 ) === '@' ) {
-            module_name += path.sep + p.shift();
+            module_name += '/' + p.shift();
         }
 
         // Anything we have left now is part of the module target path
         if ( p.length ) {
-            module_target = p.join( path.sep );
+            module_target = p.join( '/' );
         }
     }
 
